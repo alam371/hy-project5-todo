@@ -1,0 +1,21 @@
+header{
+    width: 50%;
+    margin: 0 auto;
+    h1{
+        font-family: $baseFont;
+        font-size: $biggestFont;
+        background: $eighthColor;
+        color: $seventhColor;
+        border-radius: 50px;
+        text-align: center;
+    }
+    h2{
+        font-family: $baseFont;
+        font-size: $bigFont;
+        background: $eighthColor;
+        color: $seventhColor;
+        border-radius: 50px;
+        text-align: center;
+    }
+
+}

@@ -1,0 +1,39 @@
+$baseFont:'Playfair Display', serif;
+
+$firstColor:rgb(220, 196, 193);
+$secondColor:rgb(205, 201, 191);
+$thirdColor: rgb(222, 203, 155);
+$fourthColor:rgb(196, 200, 178);
+$fifthColor:rgb(153, 207,209);
+$sixthColor: rgb(17, 15, 15);
+$seventhColor: rgb(241, 177, 13);
+$eighthColor: rgb(255, 255, 255);
+
+$biggestFont: 40px;
+$bigFont: 30px;
+$regularFont: 20px;
+$smallFont: 16px;
+$tinyFont: 14px;
+
+@import "components/setup";
+@import "components/header";
+@import "components/main";
+@import "components/footer";
+@import "components/variable";
+@import "components/mixin";
+@import "components/mediaquery";
+@import "components/svg";
+
+
+html{
+    font-size: 62.5%;
+}
+
+img{
+    width: 100%;
+}
+
+.wrapper{
+    width: 90%;
+    margin: 0 auto;
+}

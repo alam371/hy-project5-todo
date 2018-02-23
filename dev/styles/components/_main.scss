@@ -1,0 +1,36 @@
+form{
+    
+    .nameContainer,
+    .mobileContainer,
+    .doctorContainer,
+    .emergencyContainer{
+        background: $fifthColor;
+        font-family: $baseFont;
+        font-size: $tinyFont;
+        background: $eighthColor;
+        color: $seventhColor;
+        width: 50%;
+        text-align: center;
+    }
+    .pillContainer{
+        background: $fifthColor;
+        min-height: 30vh;
+        font-family: $baseFont;
+        font-size: $regularFont;
+        background: $eighthColor;
+        color: $seventhColor;
+        border-radius: 50px;
+        text-align: center;
+    }
+}
+
+.listContainer li{
+        background: $fifthColor;
+        font-family: $baseFont;
+        font-size: $smallFont;
+        background: $eighthColor;
+        color: $seventhColor;
+        border-radius: 50px;
+        text-align: center;
+    }
+
