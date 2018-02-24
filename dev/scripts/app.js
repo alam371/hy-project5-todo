@@ -19,17 +19,19 @@ class App extends React.Component {
     super();
     this.state = {
       identity: "",
-      mobile: "1800-callme-maybe?",
-      doctor: "Dr.Luigi",
-      emergency: "Cousin It",
-      drugs: ["aspirin", "lipitor"],
-      drug: "baby aspirin",
-      dosage: "250mg"
+      mobile: "",
+      doctor: "",
+      emergency: "",
+      medicine: "",
+      dosage: "",
+      drugs: [{medication:"aspirin", dosage: "250mg", completed: false}]
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDrug = this.addDrug.bind(this);
+    this.removeDrug = this.removeDrug.bind(this);
   }
       handleChange(e) {
+        // Be sure to bind this function or else it won't work!
         console.log(e.target.value)
         this.setState({
           [e.target.name]: e.target.value
@@ -38,7 +40,43 @@ class App extends React.Component {
 
       addDrug(e) {
         e.preventDefault();
+        // Be sure to bind this function or else it won't work!
+        // Make a variable to make a create a new array.
+        const drug = {
+          medication: this.state.medicine,
+          dosage: this.state.dosage,
+          completed: false
+        }
+        
+        // Make a variable to take the old array and add new item to the new array.
+        // Have to set state for the newArray.
+        let listofDrugs = Array.from(this.state.drugs);
+        console.log(listofDrugs);
+        listofDrugs.push(drug);
+        this.setState({
+          drugs: listofDrugs
+        });
+    
+        
+          const dbRef = firebase.database().ref('/drugs');
+        dbRef.push(drug);
+        this.setState({
+          name: '',
+          drug: ''
+        });
       }
+
+      removeDrug(index) {
+        // Be sure to bind this function or else it won't work!
+        // console.log("pressed");
+        const drugState = Array.from(this.state.drugs);
+        drugState.splice(index,1);
+        this.setState({
+          drugs: drugState
+        });
+      }
+
+
     render() {
       return (
         <div className="mainContainer wrapper">
@@ -48,61 +86,70 @@ class App extends React.Component {
           </header>
           <main></main>
 
-
+          {/* onSubmit of the form, a drug is added to the <li> of drugs. */}
           <form action="" onSubmit={this.addDrug}>
 
+          {/* User add name */}
           <div className="nameContainer wrapper">
             <label htmlFor=""></label>
             <input type="text" name="identity" placeholder="Name" value={this.state.identity} onChange={this.handleChange}/>
           </div>
 
+          {/* User add phone number */}
           <div className="mobileContainer wrapper">
-            <label htmlFor="">Mobile:</label>
-              <input type="text" name="mobile" placeholder="" value={this.state.mobile} onChange={this.handleChange}/>
+            <label htmlFor=""></label>
+              <input type="text" name="mobile" placeholder="Mobile" value={this.state.mobile} onChange={this.handleChange}/>
           </div>
 
+          {/* User add Doctor name */}
           <div className="doctorContainer wrapper">
-            <label htmlFor="">Doctor's contact:</label>
+            <label htmlFor=""></label>
               <input type="text" name="doctor" placeholder="Doctor's contact" value={this.state.doctor} onChange={this.handleChange}/>
           </div>
 
+          {/* User add emergency contact */}
           <div className="emergencyContainer wrapper">
-            <label htmlFor="">Emergency contact:</label>
+            <label htmlFor=""></label>
               <input type="text" name="emergency" placeholder="Emergency contact" value={this.state.emergency} onChange={this.handleChange}/>
           </div>
 
           <div className="pillContainer wrapper">
             <div>
-              <label htmlFor="">Medication name:</label>
-              <input type="text" name="medicine" value={this.state.drug} onChange={this.handleChange}/>
+              {/* User add drug to <li> */}
+              <label htmlFor=""></label>
+              <input type="text" name="medicine" placeholder="Medication name" value={this.state.medicine} onChange={this.handleChange} remove={this.removeDrug}/>
             </div>
             
             <div>
-              <label htmlFor="">Dosage amount:</label>
-                <input type="text" name="dosage" value={this.state.dosage} onChange={this.handleChange}/>
+              {/* User add dosage to <li> */}
+              <label htmlFor=""></label>
+              <input type="text" name="dosage" placeholder="Dosage" value={this.state.dosage} onChange={this.handleChange}/>
             </div>
 
             <div>
-              <input type="submit" value="Add Medication"/>
+              <input type="submit" value="Add medication!"/>
             </div>
           </div>
 
           </form>
 
-          <div>
-            {/* {this.state.identity.map((identity) => {
-              return <p>{identity}</p>
-            })}  */}
-          </div>
-
           <ul className="listContainer wrapper">
             {this.state.drugs.map((drug, i) => {
-              return <li key={`drug-${i}`}>{drug}</li>
+              return <DrugItem data={drug} key={`drug-${i}`} remove={this.removeDrug} drugIndex={i} />
             })}
           </ul>
         </div>
       )
     }
+}
+
+const DrugItem = (props) => {
+  console.log(props.data.medication);
+  console.log(props.data.dosage);
+  return (
+    <li>{props.data.medication}-{props.data.dosage}<button onClick={() => props.remove(props.drugIndex)}>☐</button>
+    </li>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
