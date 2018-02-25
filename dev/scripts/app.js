@@ -24,58 +24,100 @@ class App extends React.Component {
       emergency: "",
       medicine: "",
       dosage: "",
-      drugs: [{medication:"aspirin", dosage: "250mg", completed: false}]
+      drugs: [{medication:"xyz", dosage: "abc mg", completed: false}]
     };
     this.handleChange = this.handleChange.bind(this);
     this.addDrug = this.addDrug.bind(this);
     this.removeDrug = this.removeDrug.bind(this);
+    this.drugTaken = this.drugTaken.bind(this);
   }
-      handleChange(e) {
-        // Be sure to bind this function or else it won't work!
-        console.log(e.target.value)
-        this.setState({
-          [e.target.name]: e.target.value
-        });
-      }
 
-      addDrug(e) {
-        e.preventDefault();
-        // Be sure to bind this function or else it won't work!
-        // Make a variable to make a create a new array.
-        const drug = {
-          medication: this.state.medicine,
-          dosage: this.state.dosage,
-          completed: false
-        }
-        
-        // Make a variable to take the old array and add new item to the new array.
-        // Have to set state for the newArray.
-        let listofDrugs = Array.from(this.state.drugs);
-        console.log(listofDrugs);
-        listofDrugs.push(drug);
-        this.setState({
-          drugs: listofDrugs
-        });
+  handleChange(e) {
+    // Be sure to bind this function or else it won't work!
+    console.log(e.target.value)
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  // Here we are displaying all the stored data that
+  // the user inputs from Firebase.
+  componentDidMount() {
+    const dbRef = firebase.database().ref('/drugs');
+    dbRef.on('value', (snapshot) => {
+      // console.log(snapshot.val());
+      const info = snapshot.val();
+      const state = [];
+      for(let key in info) {
+        info [key].key = key;
+        state.push(info[key]);
+      }
+      console.log(state);
+      this.setState({
+        drugs: state
+      });
+    });
+  }
+
+  addDrug(e) {
+    e.preventDefault();
+    // Be sure to bind this function or else it won't work!
+    // Make a variable to make a create a new array.
+    const drug = {
+      medication: this.state.medicine,
+      dosage: this.state.dosage,
+      completed: false
+    };
     
-        
-          const dbRef = firebase.database().ref('/drugs');
-        dbRef.push(drug);
-        this.setState({
-          name: '',
-          drug: ''
-        });
-      }
+    // Make a variable to take the old array and add new item to the new array.
+    // Have to set state for the newArray.
+    let listofDrugs = Array.from(this.state.drugs);
+    console.log(listofDrugs);
+    listofDrugs.push(drug);
+    this.setState({
+      drugs: listofDrugs
+    });
+  }
+    
+  //   const dbRef = firebase.database().ref('/drugs');
+  //   dbRef.push(drug);
+  //   this.setState({
+  //     name: '',
+  //     drug: ''
+  //   });
+  // }
 
-      removeDrug(index) {
-        // Be sure to bind this function or else it won't work!
-        // console.log("pressed");
-        const drugState = Array.from(this.state.drugs);
-        drugState.splice(index,1);
-        this.setState({
-          drugs: drugState
-        });
-      }
+  removeDrug(e) {
+    console.log(e.target.dataset.drugindex);
+    // Be sure to bind this function or else it won't work!
+    console.log("pressed");
+    const drugState = Array.from(this.state.drugs);
+    drugState.splice(e.target.dataset.drugindex,1);
+    this.setState({
+      drugs: drugState
+    });
+  }
 
+
+  // make a variable call drugToUpdate
+  // pass a function that uses the key identifier
+  // locate the key and then return the result 
+  // pass it through conditions 
+  // if the drug to be updated = drug to be updated then delete the key
+  drugTaken(drugKey) {
+    console.log(drugKey);
+    const drugToUpdate = this.state.drugs.find((drug) => 
+    {
+      return drug.key === drugKey;
+    });
+    console.log(drugToUpdate);
+    const dbref = firebase.database().ref(`/drug/${drugKey}`);
+    drugToUpdate.taken = drugToUpdate.taken === 
+    true ?
+    false : true;
+    delete drugToUpdate.key;
+    dbref.set(drugToUpdate);
+  }
 
     render() {
       return (
@@ -134,22 +176,25 @@ class App extends React.Component {
           </form>
 
           <ul className="listContainer wrapper">
+
             {this.state.drugs.map((drug, i) => {
-              return <DrugItem data={drug} key={`drug-${i}`} remove={this.removeDrug} drugIndex={i} />
+              console.log(drug);
+              return ( <DrugItem data={drug} key={`drug-${i}`} remove={this.removeDrug} drugIndex={i} drugTaken={this.drugTaken} />
+            )
             })}
           </ul>
         </div>
       )
     }
-}
+  }  
+      const DrugItem = (props) => {
+        // console.log(props.data.medication);
+        // console.log(props.data.dosage);
+        return (
+          <li>{props.data.medication}-{props.data.dosage}<button onClick={props.drugTaken}>drug taken</button><button data-drugIndex={props.drugIndex}onClick={props.remove}>delete drug from list</button>
+          </li>
+        )
+      }
 
-const DrugItem = (props) => {
-  console.log(props.data.medication);
-  console.log(props.data.dosage);
-  return (
-    <li>{props.data.medication}-{props.data.dosage}<button onClick={() => props.remove(props.drugIndex)}>☐</button>
-    </li>
-  )
-}
 
 ReactDOM.render(<App />, document.getElementById('app'));
