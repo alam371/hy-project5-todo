@@ -71,51 +71,65 @@ class App extends React.Component {
     
     // Make a variable to take the old array and add new item to the new array.
     // Have to set state for the newArray.
+    // Here is the function that display user input in state.
     let listofDrugs = Array.from(this.state.drugs);
     console.log(listofDrugs);
     listofDrugs.push(drug);
     this.setState({
       drugs: listofDrugs
     });
-  }
     
-  //   const dbRef = firebase.database().ref('/drugs');
-  //   dbRef.push(drug);
-  //   this.setState({
-  //     name: '',
-  //     drug: ''
-  //   });
-  // }
-
-  removeDrug(e) {
-    console.log(e.target.dataset.drugindex);
-    // Be sure to bind this function or else it won't work!
-    console.log("pressed");
-    const drugState = Array.from(this.state.drugs);
-    drugState.splice(e.target.dataset.drugindex,1);
+    // Here is the fucntion that saves the user input in firebase.
+    const dbRef = firebase.database().ref('/drugs');
+    dbRef.push(drug);
     this.setState({
-      drugs: drugState
+      name: '',
+      drug: ''
     });
   }
 
+  removeDrug(e) {
+    // console.log(e.target.dataset);
+    // Be sure to bind this function or else it won't work!
+    // console.log("pressed");
+    const drugState = Array.from(this.state.drugs);
+    const drugToRemoveKey = drugState[e.target.dataset.drugindex].key;
+    drugState.splice(e.target.dataset.drugindex,1);
+    this.setState({
+      drugs: drugState,
+    });
+
+    const dbref = firebase.database().ref(`/drugs/${drugToRemoveKey}`);
+    dbref.remove();
+    // const drugTook = Array.from(this.state.drugs);
+    // drugTook.splice(e.target.dataset)
+  }
 
   // make a variable call drugToUpdate
   // pass a function that uses the key identifier
   // locate the key and then return the result 
   // pass it through conditions 
   // if the drug to be updated = drug to be updated then delete the key
-  drugTaken(drugKey) {
-    console.log(drugKey);
-    const drugToUpdate = this.state.drugs.find((drug) => 
-    {
-      return drug.key === drugKey;
-    });
+  drugTaken(e) {
+    console.log(e.target.dataset);
+    
+    // let drugToUpdate = this.state.drugs[e.target.dataset.drugindex];
+    // console.log(drugToUpdate);
+    // drugToUpdate.completed = true;
+    let updatedDrugList = Array.from(this.state.drugs);
+    updatedDrugList[e.target.dataset.drugindex].completed = true;
+    const drugToUpdate = updatedDrugList[e.target.dataset.drugindex];
+    console.log(updatedDrugList);
     console.log(drugToUpdate);
-    const dbref = firebase.database().ref(`/drug/${drugKey}`);
-    drugToUpdate.taken = drugToUpdate.taken === 
-    true ?
-    false : true;
-    delete drugToUpdate.key;
+    this.setState({
+      drugs: updatedDrugList
+    });
+    
+    const dbref = firebase.database().ref(`/drugs/${drugToUpdate.key}`);
+    // drugToUpdate.taken = drugToUpdate.taken === 
+    // true ?
+    // false : true;
+    // delete drugToUpdate.key;
     dbref.set(drugToUpdate);
   }
 
@@ -191,7 +205,7 @@ class App extends React.Component {
         // console.log(props.data.medication);
         // console.log(props.data.dosage);
         return (
-          <li>{props.data.medication}-{props.data.dosage}<button onClick={props.drugTaken}>drug taken</button><button data-drugIndex={props.drugIndex}onClick={props.remove}>delete drug from list</button>
+          <li>{props.data.medication}-{props.data.dosage} <button data-drugIndex={props.drugIndex} onClick={props.drugTaken}>drug taken</button> <button data-drugIndex={props.drugIndex} onClick={props.remove}>delete drug from list</button>
           </li>
         )
       }
