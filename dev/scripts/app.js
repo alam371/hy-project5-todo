@@ -137,8 +137,7 @@ class App extends React.Component {
       return (
         <div className="mainContainer wrapper">
           <header>
-            <h1>Dr. Mario's Pill List</h1>
-            <h2>Did you take your pill yet?</h2>
+            <h1>Pill Minder</h1>
           </header>
           <main></main>
 

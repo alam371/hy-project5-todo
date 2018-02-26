@@ -6,8 +6,9 @@ $thirdColor: rgb(222, 203, 155);
 $fourthColor:rgb(196, 200, 178);
 $fifthColor:rgb(153, 207,209);
 $sixthColor: rgb(17, 15, 15);
-$seventhColor: rgb(241, 177, 13);
+$seventhColor: rgb(241, 13, 13);
 $eighthColor: rgb(255, 255, 255);
+$ninethColor:  rgb(241, 177, 13);
 
 $biggestFont: 40px;
 $bigFont: 30px;
@@ -36,4 +37,5 @@ img{
 .wrapper{
     width: 90%;
     margin: 0 auto;
+    padding: 0;
 }

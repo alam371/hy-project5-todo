@@ -2,33 +2,41 @@ form{
     .nameContainer,
     .mobileContainer,
     .doctorContainer,
-    .emergencyContainer{
-        background: $fifthColor;
-        font-family: $baseFont;
-        font-size: $tinyFont;
-        background: $eighthColor;
-        color: $seventhColor;
-        width: 50%;
-        text-align: center;
-    }
+    .emergencyContainer,
     .pillContainer{
         background: $fifthColor;
-        min-height: 30vh;
         font-family: $baseFont;
         font-size: $regularFont;
         background: $eighthColor;
         color: $seventhColor;
-        border-radius: 20px;
         text-align: center;
     }
 }
 
 .listContainer li{
-        background: $fifthColor;
-        font-family: $baseFont;
-        font-size: $smallFont;
-        background: $eighthColor;
-        color: $seventhColor;
-        text-align: center;
-    }
+    background: $fifthColor;
+    font-family: $baseFont;
+    font-size: $smallFont;
+    background: $eighthColor;
+    color: $ninethColor;
+    text-align: center;
+    padding: 5px;
+}
 
+ul{
+    list-style-type: circle;
+    padding-bottom: 100px;
+}
+
+input{
+    margin: 18px auto;
+}
+
+input[type="submit"]{
+    color: $ninethColor;
+    background: $sixthColor;
+    border: 1px solid $sixthColor;
+    border-radius: 50px;
+    text-align: center;
+    padding: 15px 40px;
+}

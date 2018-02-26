@@ -4,18 +4,10 @@ header{
     h1{
         font-family: $baseFont;
         font-size: $biggestFont;
-        background: $eighthColor;
-        color: $seventhColor;
+        background: $sixthColor;
+        color: $ninethColor;
         border-radius: 50px;
         text-align: center;
+        padding: 15px 40px;
     }
-    h2{
-        font-family: $baseFont;
-        font-size: $bigFont;
-        background: $eighthColor;
-        color: $seventhColor;
-        border-radius: 50px;
-        text-align: center;
-    }
-
 }
