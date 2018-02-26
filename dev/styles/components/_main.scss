@@ -33,10 +33,16 @@ input{
 }
 
 input[type="submit"]{
-    color: $ninethColor;
-    background: $sixthColor;
-    border: 1px solid $sixthColor;
+    color: $eighthColor;
+    background: $fifthColor;
+    border: 1px solid $fifthColor;
     border-radius: 50px;
     text-align: center;
     padding: 15px 40px;
+}
+
+.completed {
+    background: $fourthColor;
+    border-radius: 50px;
+    text-align: center;
 }

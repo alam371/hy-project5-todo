@@ -203,8 +203,9 @@ class App extends React.Component {
       const DrugItem = (props) => {
         // console.log(props.data.medication);
         // console.log(props.data.dosage);
+        console.log(props.data)
         return (
-          <li>{props.data.medication}-{props.data.dosage} <button data-drugIndex={props.drugIndex} onClick={props.drugTaken}>drug taken</button> <button data-drugIndex={props.drugIndex} onClick={props.remove}>delete drug from list</button>
+          <li>{props.data.medication}-{props.data.dosage} <button className={props.data.completed ? 'completed' : null} data-drugIndex={props.drugIndex} onClick={props.drugTaken}>drug taken</button> <button data-drugIndex={props.drugIndex} onClick={props.remove}>delete drug from list</button>
           </li>
         )
       }

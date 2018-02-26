@@ -4,10 +4,14 @@ header{
     h1{
         font-family: $baseFont;
         font-size: $biggestFont;
-        background: $sixthColor;
-        color: $ninethColor;
+        background: $fifthColor;
+        color: $eighthColor;
         border-radius: 50px;
         text-align: center;
         padding: 15px 40px;
     }
+}
+
+.completed {
+    background: red;
 }
