@@ -1,0 +1,14 @@
+@media (max-width: 670px){
+    .listContainer li{
+        font-size: $bigFont;
+    }
+    input[type="submit"]{
+         font-size: $bigFont;
+    }
+    .completed{
+         font-size: $bigFont;
+    }
+    button{
+        margin: 10px 0px;
+    }
+}

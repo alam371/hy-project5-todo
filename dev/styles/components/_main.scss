@@ -44,5 +44,6 @@ input[type="submit"]{
 .completed {
     background: $fourthColor;
     border-radius: 50px;
+    border: 1px solid $fourthColor;
     text-align: center;
 }
