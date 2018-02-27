@@ -112,10 +112,8 @@ class App extends React.Component {
   // if the drug to be updated = drug to be updated then delete the key
   drugTaken(e) {
     console.log(e.target.dataset);
-    
-    // let drugToUpdate = this.state.drugs[e.target.dataset.drugindex];
-    // console.log(drugToUpdate);
-    // drugToUpdate.completed = true;
+
+
     let updatedDrugList = Array.from(this.state.drugs);
     updatedDrugList[e.target.dataset.drugindex].completed = true;
     const drugToUpdate = updatedDrugList[e.target.dataset.drugindex];
@@ -126,6 +124,7 @@ class App extends React.Component {
     });
     
     const dbref = firebase.database().ref(`/drugs/${drugToUpdate.key}`);
+
     // drugToUpdate.taken = drugToUpdate.taken === 
     // true ?
     // false : true;
